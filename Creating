@@ -1,0 +1,73 @@
+CREATE or replace EXTERNAL TABLE adb.std10_44.plan_ext (
+	date date,
+	region varchar,
+	matdirec varchar,
+	quantity int4,
+	distr_chan varchar
+)
+LOCATION (
+		'pxf://gp.sales?PROFILE=jdbc&JDBC_DRIVER=org.postgresql.Driver&DB_URL=jdbc:postgresql://**/postgres&USER=**&PASS=**'
+) ON ALL
+FORMAT 'CUSTOM' ( FORMATTER='pxfwritable_import' )
+ENCODING 'UTF8';
+
+CREATE EXTERNAL TABLE adb.std10_44.sales_ext (
+	check_nm varchar,
+	check_pos varchar,
+	material varchar,
+	region varchar,
+	distr_chan varchar,
+	quantity int4,
+	date date
+)
+LOCATION (
+'pxf://gp.sales?PROFILE=jdbc&JDBC_DRIVER=org.postgresql.Driver&DB_URL=jdbc:postgresql://**/postgres&USER=**&PASS=**'
+) ON ALL
+FORMAT 'CUSTOM' ( FORMATTER='pxfwritable_import' )
+ENCODING 'UTF8';
+
+CREATE EXTERNAL TABLE adb.std10_44.chanel_csv (
+	distr_chan varchar,
+	txtsh text
+)
+LOCATION (
+	'gpfdist://**/chanel.csv'
+) ON ALL
+FORMAT 'CSV' ( delimiter ';' null '' escape '"' quote '"' header )
+ENCODING 'UTF8';
+
+CREATE EXTERNAL TABLE adb.std10_44.price_csv (
+	material int4,
+	region varchar,
+	distr_chan varchar,
+	price int4
+)
+LOCATION (
+	'gpfdist://**/price.csv'
+) ON ALL
+FORMAT 'CSV' ( delimiter ';' null '' escape '"' quote '"' header )
+ENCODING 'UTF8';
+
+CREATE EXTERNAL TABLE adb.std10_44.product_csv (
+	material int4,
+	asgrp int4,
+	brand int4,
+	matcateg varchar,
+	matdirec int4,
+	txt text
+)
+LOCATION (
+	'gpfdist://**/product.csv'
+) ON ALL
+FORMAT 'CSV' ( delimiter ';' null '' escape '"' quote '"' header )
+ENCODING 'UTF8';
+
+CREATE EXTERNAL TABLE adb.std10_44.region_csv (
+	region varchar,
+	txt text
+)
+LOCATION (
+	'gpfdist://**/region*.csv'
+) ON ALL
+FORMAT 'CSV' ( delimiter ';' null '' escape '"' quote '"' header )
+ENCODING 'UTF8';
